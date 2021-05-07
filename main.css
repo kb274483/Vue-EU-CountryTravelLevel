@@ -1,0 +1,101 @@
+#newApp {
+  background-color: #d4f7fd;
+  font-family: 'Noto Sans TC', sans-serif;
+}
+
+.title {
+  margin-left: 200px;
+}
+
+.totalLevel {
+  font-size: 25px;
+  color: #ff5f5f;
+  font-weight: 700;
+  margin-left: 200px;
+}
+
+.menuOptions {
+  width: 150px;
+  text-align: center;
+  border: 2px #ffbd66 solid;
+  border-radius: 5px;
+  background-color: whitesmoke;
+  display: none;
+  position: absolute;
+}
+
+.level {
+  font-size: 12px;
+  padding-bottom: 3px;
+  line-height: 10px;
+  border-top: 1px #ffbd66 solid;
+}
+
+.level:hover {
+  cursor: pointer;
+  background-color: #b6b6b6;
+}
+
+.drawMap {
+  width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.againBtn {
+  background-color: #ff9393;
+  width: 50px;
+  height: 30px;
+  color: white;
+  margin-left: 50px;
+  border-radius: 10px;
+}
+
+.fillMap {
+  fill: #bffce2;
+  stroke: #ffbd66;
+  stroke-width: 4;
+  stroke-linejoin: round;
+  stroke-miterlimit: 10;
+}
+
+.fillMap:hover {
+  cursor: pointer;
+}
+
+.level5 {
+  fill: #5d6ece;
+  stroke: #ffbd66;
+  stroke-width: 4;
+}
+
+.level4 {
+  fill: #ff5f5f;
+  stroke: #ffbd66;
+  stroke-width: 4;
+}
+
+.level3 {
+  fill: #ffcc24;
+  stroke: #ffbd66;
+  stroke-width: 4;
+}
+
+.level2 {
+  fill: #fcff2d;
+  stroke: #ffbd66;
+  stroke-width: 4;
+}
+
+.level1 {
+  fill: #76c6fc;
+  stroke: #ffbd66;
+  stroke-width: 4;
+}
+
+.level0 {
+  fill: #bffce2;
+  stroke: #ffbd66;
+  stroke-width: 4;
+}
+/*# sourceMappingURL=main.css.map */

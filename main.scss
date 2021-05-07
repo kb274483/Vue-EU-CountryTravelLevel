@@ -1,0 +1,85 @@
+$color-fill:rgb(191, 252, 226);
+$color-fill-LV1:#76c6fc;
+$color-fill-LV2:#fcff2d;
+$color-fill-LV3:#ffcc24;
+$color-fill-LV4:#ff5f5f;
+$color-fill-LV5:#5d6ece;
+$color-border:#ffbd66;
+$color-BG:#d4f7fd;
+
+#newApp{
+    background-color: $color-BG;
+    font-family: 'Noto Sans TC', sans-serif;
+}
+.title{
+    margin-left: 200px;
+}
+.totalLevel{
+    font-size: 25px; color:$color-fill-LV4;
+    font-weight:700; margin-left: 200px;
+}
+.menuOptions{
+    width: 150px; text-align: center;
+    border: 2px $color-border solid;
+    border-radius: 5px;
+    background-color: whitesmoke;
+    display: none;
+    position:absolute;
+}
+.level{
+    font-size: 12px; padding-bottom: 3px;
+    line-height: 10px;  
+    border-top:1px $color-border solid; ;
+}
+.level:hover{
+    cursor: pointer;
+    background-color: rgb(182, 182, 182);
+}
+.drawMap{
+    width: 1000px;
+    margin-left: auto; margin-right: auto;
+}
+.againBtn{
+    background-color: rgb(255, 147, 147); 
+    width: 50px; height: 30px; color: rgb(255, 255, 255);
+    margin-left: 50px; border-radius: 10px;
+}
+
+.fillMap{
+    fill:$color-fill;stroke:$color-border;
+    stroke-width:4;stroke-linejoin:round;
+    stroke-miterlimit:10;
+}
+.fillMap:hover{
+    cursor: pointer;
+}
+.level5{
+    fill: $color-fill-LV5;
+    stroke:$color-border;
+    stroke-width:4;
+}
+.level4{
+    fill: $color-fill-LV4;
+    stroke:$color-border;
+    stroke-width:4;
+}
+.level3{
+    fill: $color-fill-LV3;
+    stroke:$color-border;
+    stroke-width:4;
+}
+.level2{
+    fill: $color-fill-LV2;
+    stroke:$color-border;
+    stroke-width:4;
+}
+.level1{
+    fill: $color-fill-LV1;
+    stroke:$color-border;
+    stroke-width:4;
+}
+.level0{
+    fill: $color-fill;
+    stroke:$color-border;
+    stroke-width:4;
+}
