@@ -1,3 +1,5 @@
+
+
 const App = {
     data() {
       return {
@@ -45,15 +47,18 @@ const App = {
         tempCountryName:'',
         //tempCountryLevel:[],
         LvSum: 0 ,
-
+        userName:'',
+        
       }    
+    
+    
     },
 
     methods:{
         getCountry(e){
             let selected = document.querySelector('.menuOptions');
             let scrX = e.screenX;
-            let scrY = e.screenY-90;
+            let scrY = e.screenY-220;
             selected.style.display = 'block';
             selected.style.top = scrY+'px';
             selected.style.left = scrX+'px';
@@ -102,7 +107,28 @@ const App = {
                 }
             }
             this.LvSum = 0;
-        }
+            this.userName ='';
+        },
+        writeName(){
+            let name = document.querySelector('.typeNameBox');
+            console.log(name.value);
+            if(name.value === ''){
+                alert('請輸入你的名字');
+            }else{
+                this.userName = name.value;
+                name.value = '';
+            }
+        },
+        screenShot() {
+            const preview = document.querySelector('#newApp');
+            html2canvas(preview).then((canvas) => 
+            {
+                var img = document.createElement('a');
+                img.href = canvas.toDataURL('image/jpeg').replace('image/jpeg', 'image/octet-stream');
+                img.download = `EU-CountryLevel.jpg`;
+                img.click();
+            })  
+        },
         
     }
   }
