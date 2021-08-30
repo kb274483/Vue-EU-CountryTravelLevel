@@ -61,7 +61,7 @@
         
         <div class="mapContainer">
             <div class="menuOptions">
-                <div class="counteyName" v-model="tempCountryName">{{tempCountryName}}</div>
+                <div class="counteyName">{{tempCountryName}}</div>
                 <div class="level" v-for="items in levelOptions" :key="items.period"
                     @click="checkCountryLevel(items.level)">
                     <p>{{items.period}}</p>
