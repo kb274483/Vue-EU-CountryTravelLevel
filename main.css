@@ -1,8 +1,10 @@
-#newApp {
-  background-color: #d4f7fd;
+body{
+   background-color: #d4f7fd;
   font-family: 'Noto Sans TC', sans-serif;
 }
-
+#newApp{
+    padding: 30px;
+}
 .sideBar {
   z-index: 100;
   position: relative;
