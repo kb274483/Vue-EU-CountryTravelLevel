@@ -7,9 +7,12 @@ $color-fill-LV5:#5d6ece;
 $color-border:#ffbd66;
 $color-BG:#d4f7fd;
 
-#newApp{
+body{
     background-color: $color-BG;
     font-family: 'Noto Sans TC', sans-serif;
+}
+#newApp{
+    padding: 30px;
 }
 .sideBar{
     z-index: 100; position: relative;
