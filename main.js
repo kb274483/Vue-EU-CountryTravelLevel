@@ -57,8 +57,8 @@ const App = {
     methods:{
         getCountry(e){
             let selected = document.querySelector('.menuOptions');
-            let scrX = e.screenX;
-            let scrY = e.screenY-220;
+            let scrX = e.screenX-50;
+            let scrY = e.screenY-250;
             selected.style.display = 'block';
             selected.style.top = scrY+'px';
             selected.style.left = scrX+'px';
