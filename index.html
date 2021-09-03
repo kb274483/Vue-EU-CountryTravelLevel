@@ -1,194 +1,365 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta property="og:title" content="來個歐洲制國吧" />
+        <meta property="og:url" content="https://kb274483.github.io/Vue-EU-CountryTravelLevel/" />
+        <meta property="og:description" content="歐洲制縣太難了!先來個制國就好" />
+        <title>歐洲你去過哪邊呢?</title>
+        <link rel="stylesheet" href="main.css" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet" />
+        <link
+            rel="shortcut icon"
+            href="https://image.flaticon.com/icons/png/128/2072/2072352.png"
+            type="image/x-icon"
+        />
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:title" content="來個歐洲制國吧" />
-    <meta property="og:url" content="https://kb274483.github.io/Vue-EU-CountryTravelLevel/" />
-    <meta property="og:description" content="歐洲制縣太難了!先來個制國就好" />
-    <title>歐洲你去過哪邊呢?</title>
-    <link rel="stylesheet" href="main.css">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
-    <link rel="shortcut icon" href="https://image.flaticon.com/icons/png/128/2072/2072352.png" type="image/x-icon">
-    
-</head>
+    <body>
+        <div id="newApp">
+            <div class="sideBar">
+                <h1 class="title">歐洲各國，{{userName}}去過哪邊呢?</h1>
+                <div class="totalLevel">你的等級:<span>{{LvSum}}</span></div>
 
-<body>
+                <div class="typeName">
+                    寫下你的名字:
+                    <input
+                        type="text"
+                        class="typeNameBox"
+                        maxlength="10"
+                        @keyup.enter="writeName"
+                        placeholder="輸入後請按下 Enter"
+                    />
+                </div>
 
-    <div id="newApp">
+                <input type="button" class="Btn againBtn" value="再一次" @click="playAgain" />
+                <input type="button" class="Btn saveAsBtn" value="保存圖片" @click="screenShot" />
 
-        <div class="sideBar">
-            <h1 class="title">歐洲各國，{{userName}}去過哪邊呢?</h1>
-            <div class="totalLevel">你的等級:<span>{{LvSum}}</span></div>
-            
-            <div class="typeName">寫下你的名字:
-                <input type="text" class="typeNameBox" maxlength="10" @keyup.enter="writeName" placeholder="輸入後請按下 Enter">
+                <div class="levelExampleContainer">
+                    <div class="levelPoint">
+                        <span class="circle" style="background-color: #5d6ece">5</span>
+                        久居(超過三年)
+                    </div>
+                    <div class="levelPoint">
+                        <span class="circle" style="background-color: #ff5f5f">4</span>
+                        短居(超過一年)
+                    </div>
+                    <div class="levelPoint">
+                        <span class="circle" style="background-color: #ffcc24">3</span>
+                        旅居(超過三個月)
+                    </div>
+                    <div class="levelPoint">
+                        <span class="circle" style="background-color: #fcff2d">2</span>
+                        旅遊(三個月以內)
+                    </div>
+                    <div class="levelPoint">
+                        <span class="circle" style="background-color: #76c6fc">1</span>
+                        路過
+                    </div>
+                    <div class="levelPoint">
+                        <span class="circle" style="background-color: rgb(191, 252, 226)">0</span>
+                        從沒去過
+                    </div>
+                </div>
             </div>
 
-            <input type="button" class="Btn againBtn" value="再一次" @click="playAgain">
-            <input type="button" class="Btn saveAsBtn" value="保存圖片" @click="screenShot">
-            
-            <div class="levelExampleContainer">
-                <div class="levelPoint">
-                    <span class="circle" style="background-color: #5d6ece;">5</span>
-                    久居(超過三年)
+            <div class="mapContainer">
+                <div class="menuOptions">
+                    <div class="counteyName">{{tempCountryName}}</div>
+                    <div
+                        class="level"
+                        v-for="items in levelOptions"
+                        :key="items.period"
+                        @click="checkCountryLevel(items.level)"
+                    >
+                        <p>{{items.period}}</p>
+                    </div>
                 </div>
-                <div class="levelPoint">
-                    <span class="circle" style="background-color: #ff5f5f;">4</span>
-                    短居(超過一年)
-                </div>
-                <div class="levelPoint">
-                    <span class="circle" style="background-color: #ffcc24;">3</span>
-                    旅居(超過三個月)
-                </div>
-                <div class="levelPoint">
-                    <span class="circle" style="background-color: #fcff2d;">2</span>
-                    旅遊(三個月以內)
-                </div>
-                <div class="levelPoint">
-                    <span class="circle" style="background-color: #76c6fc;">1</span>
-                    路過
-                </div>
-                <div class="levelPoint">
-                    <span class="circle" style="background-color: rgb(191, 252, 226);">0</span>
-                    從沒去過
+
+                <div class="drawMap">
+                    <?xml version="1.0" standalone="no"?>
+                    <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+                    <svg
+                        class="drawSpace"
+                        width="1000px"
+                        height="1000px"
+                        viewbox="0 180 1000 1200"
+                        version="1.1"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <polygon
+                            id="Finland"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="668,268 778,238 806,464 758,519 770,523 703,545 674,475 726,398 672,268"
+                        />
+                        <polygon
+                            id="Sweden"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="668,267 706,356 623,504 649,541 616,578 615,628 575,645 544,575 555,447 669,266"
+                        />
+                        <polygon
+                            id="Norway"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="799,229 732,182 675,212 465,504 491,595 545,558 555,449 670,265 799,229"
+                        />
+                        <polygon
+                            id="UK"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="346,572 378,618 370,632 424,717 415,750 329,761 341,704 362,692 354,667 341,662 329,624 331,591 346,576"
+                        />
+                        <polygon
+                            id="UK2"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="298,671 318,657 323,658 322,681 297,678 297,671"
+                        />
+                        <polygon
+                            id="Ireland"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="314,659 306,656 275,677 265,722 292,739 319,701 321,681 299,679 298,671 316,659"
+                        />
+                        <polygon
+                            id="Portugal"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="296,915 318,918 303,999 284,996 294,915"
+                        />
+                        <polygon
+                            id="Spain"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="294,914 298,886 438,908 380,1004 335,1015 305,1004 319,919 294,915"
+                        />
+                        <polygon
+                            id="France"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="342,794 379,798 437,746 506,789 488,879 452,885 439,907 381,901 381,836 343,806 343,794"
+                        />
+                        <polygon
+                            id="Belgium"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="464,722 468,735 489,748 489,780 470,771 435,747 464,720"
+                        />
+                        <polygon
+                            id="Luxembourg"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="479,771 491,764 491,789 470,771"
+                        />
+                        <polygon
+                            id="Netherlands"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="464,719 492,697 490,745 469,736 465,722"
+                        />
+                        <polygon
+                            id="Denmark"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="515,669 532,660 529,654 540,632 532,599 501,633 513,670"
+                        />
+                        <polygon
+                            id="Germany"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="512,668 532,660 547,687 589,681 596,744 559,765 580,794 536,822 506,812 508,789 489,778 493,699"
+                        />
+                        <polygon
+                            id="Switzerland"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="503,807 495,851 538,822 504,816"
+                        />
+                        <polygon
+                            id="Italy"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="494,850 536,823 574,836 579,857 560,873 638,944 637,949 622,941 615,951 622,971 
+                        611,985 602,984 594,1007 562,986 580,980 601,984 519,874 490,880 494,848"
+                        />
+                        <polygon
+                            id="Poland"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="592,681 652,670 690,682 699,674 710,686 710,690 709,733 686,783 596,743 590,682"
+                        />
+                        <polygon
+                            id="CzechRepublic"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="595,745 655,770 620,794 582,792 555,760 595,746"
+                        />
+                        <polygon
+                            id="Austria"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="539,824 580,795 621,794 625,808 613,827 575,834 538,823"
+                        />
+                        <polygon
+                            id="Slovenia"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="573,838 614,827 619,834 587,862 578,856 575,838"
+                        />
+                        <polygon
+                            id="Croatia"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="620,835 648,853 649,864 607,862 626,900 587,864 619,832"
+                        />
+                        <polygon
+                            id="Slovakia"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="657,772 686,785 682,794 624,811 620,794 655,771"
+                        />
+                        <polygon
+                            id="Hungary"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="625,810 683,793 700,807 671,842 648,851 612,827 625,808"
+                        />
+                        <polygon
+                            id="BosniaHerzegovina"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="608,861 649,865 652,888 636,908 626,898 606,860"
+                        />
+                        <polygon
+                            id="Montenegro"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="653,891 666,900 651,912 652,921 636,908 652,890"
+                        />
+                        <polygon
+                            id="Albania"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="651,914 661,906 676,935 662,959 652,944 651,913"
+                        />
+                        <polygon
+                            id="Greece"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="677,936 716,924 743,928 745,934 722,935 696,950 720,987 701,1017 662,960 678,933"
+                        />
+                        <polygon
+                            id="Serbia"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="647,852 670,843 694,872 695,920 673,894 666,901 653,890 647,851"
+                        />
+                        <polygon
+                            id="Kosovo"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="662,904 672,894 683,907 668,918 661,905"
+                        />
+                        <polygon
+                            id="NorthMacedonia"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="669,918 684,907 701,928 676,934 669,916"
+                        />
+                        <polygon
+                            id="Estonia"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="711,569 724,557 762,550 763,597 731,584 717,588 710,569"
+                        />
+                        <polygon
+                            id="Latvia"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="682,599 691,596 709,618 721,594 718,588 734,583 764,596 767,633 751,643 679,633 681,597"
+                        />
+                        <polygon
+                            id="Lithuania"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="678,634 751,641 710,685 676,655 678,634"
+                        />
+                        <polygon
+                            id="Belarus"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="751,643 767,633 799,646 814,720 708,731 710,684 752,643"
+                        />
+                        <polygon
+                            id="Ukraine"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="710,735 840,721 921,779 899,825 841,844 867,861 841,874 821,856 
+                        832,844 804,837 791,859 771,854 787,830 771,801 701,808 683,792 710,733"
+                        />
+                        <polygon
+                            id="Moldova"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="749,804 770,801 788,830 772,856 750,803"
+                        />
+                        <polygon
+                            id="Bulgaria"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="669,843 699,807 748,803 769,857 790,858 774,885 706,886 669,843"
+                        />
+                        <polygon
+                            id="Romania"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="695,873 707,887 775,887 758,917 744,920 744,928 718,923 704,927 698,919 695,873"
+                        />
+                        <polygon
+                            id="Iceland"
+                            class="fillMap"
+                            @click="getCountry"
+                            points="201,364 229,418 170,443 138,440 102,396 118,391 86,384 109,357 133,386 201,365"
+                        />
+
+                        <text transform="matrix(1 0 0 1 501 512)" class="country">挪威</text>
+                        <text transform="matrix(1 0 0 1 595 440)" class="country">瑞典</text>
+                        <text transform="matrix(1 0 0 1 740 430)" class="country">芬蘭</text>
+                        <text transform="matrix(1 0 0 1 765 570)" class="country">愛沙尼亞</text>
+                        <text transform="matrix(1 0 0 1 765 615)" class="country">拉脫維亞</text>
+                        <text transform="matrix(1 0 0 1 630 660)" class="country">立陶宛</text>
+                        <text transform="matrix(1 0 0 1 735 691)" class="country">白俄羅斯</text>
+                        <text transform="matrix(1 0 0 1 640 722)" class="country">波蘭</text>
+                        <text transform="matrix(1 0 0 1 817 770)" class="country">烏克蘭</text>
+                        <text transform="matrix(1 0 0 1 684 844)" class="country">保加利亞</text>
+                        <text transform="matrix(1 0 0 1 702 906)" class="country">羅馬尼亞</text>
+                        <text transform="matrix(1 0 0 1 668 966)" class="country">希臘</text>
+                        <text transform="matrix(1 0 0 1 514 852)" class="country">義大利</text>
+                        <text transform="matrix(1 0 0 1 336 963)" class="country">西班牙</text>
+                        <text transform="matrix(1 0 0 1 260 964)" class="country">葡萄牙</text>
+                        <text transform="matrix(1 0 0 1 392 819)" class="country">法國</text>
+                        <text transform="matrix(1 0 0 1 520 743)" class="country">德國</text>
+                        <text transform="matrix(1 0 0 1 134 406)" class="country">冰島</text>
+                        <text transform="matrix(1 0 0 1 349 731)" class="country">英國</text>
+                        <text transform="matrix(1 0 0 1 271 696)" class="country">愛爾蘭</text>
+                        <text transform="matrix(1 0 0 1 420 730)" class="country">比利時</text>
+                        <text transform="matrix(1 0 0 1 450 700)" class="country">荷蘭</text>
+                        <text transform="matrix(1 0 0 1 470 633)" class="country">丹麥</text>
+                        <text transform="matrix(1 0 0 1 580 775)" class="country">捷克</text>
+                        <text transform="matrix(1 0 0 1 570 810)" class="country">奧地利</text>
+                        <text transform="matrix(1 0 0 1 640 815)" class="country">匈牙利</text>
+                    </svg>
                 </div>
             </div>
         </div>
-        
-        <div class="mapContainer">
-            <div class="menuOptions">
-                <div class="counteyName">{{tempCountryName}}</div>
-                <div class="level" v-for="items in levelOptions" :key="items.period"
-                    @click="checkCountryLevel(items.level)">
-                    <p>{{items.period}}</p>
-                </div>
-            </div>
 
-            <div class="drawMap">
-                <?xml version="1.0" standalone="no"?>
-                <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-                <svg class="drawSpace" width="1000px" height="1000px" viewbox="0 180 1000 1200" version="1.1"
-                    xmlns="http://www.w3.org/2000/svg">
-
-                    <polygon id="Finland" class="fillMap " @click="getCountry"
-                        points="668,268 778,238 806,464 758,519 770,523 703,545 674,475 726,398 672,268" />
-                    <polygon id="Sweden" class="fillMap " @click="getCountry"
-                        points="668,267 706,356 623,504 649,541 616,578 615,628 575,645 544,575 555,447 669,266" />
-                    <polygon id="Norway" class="fillMap " @click="getCountry"
-                        points="799,229 732,182 675,212 465,504 491,595 545,558 555,449 670,265 799,229" />
-                    <polygon id="UK" class="fillMap" @click="getCountry"
-                        points="346,572 378,618 370,632 424,717 415,750 329,761 341,704 362,692 354,667 341,662 329,624 331,591 346,576" />
-                    <polygon id="UK2" class="fillMap" @click="getCountry"
-                        points="298,671 318,657 323,658 322,681 297,678 297,671" />
-                    <polygon id="Ireland" class="fillMap" @click="getCountry"
-                        points="314,659 306,656 275,677 265,722 292,739 319,701 321,681 299,679 298,671 316,659" />
-                    <polygon id="Portugal" class="fillMap" @click="getCountry"
-                        points="296,915 318,918 303,999 284,996 294,915" />
-                    <polygon id="Spain" class="fillMap" @click="getCountry"
-                        points="294,914 298,886 438,908 380,1004 335,1015 305,1004 319,919 294,915" />
-                    <polygon id="France" class="fillMap" @click="getCountry"
-                        points="342,794 379,798 437,746 506,789 488,879 452,885 439,907 381,901 381,836 343,806 343,794" />
-                    <polygon id="Belgium" class="fillMap" @click="getCountry"
-                        points="464,722 468,735 489,748 489,780 470,771 435,747 464,720" />
-                    <polygon id="Luxembourg" class="fillMap" @click="getCountry"
-                        points="479,771 491,764 491,789 470,771" />
-                    <polygon id="Netherlands" class="fillMap" @click="getCountry"
-                        points="464,719 492,697 490,745 469,736 465,722" />
-                    <polygon id="Denmark" class="fillMap" @click="getCountry"
-                        points="515,669 532,660 529,654 540,632 532,599 501,633 513,670" />
-                    <polygon id="Germany" class="fillMap" @click="getCountry"
-                        points="512,668 532,660 547,687 589,681 596,744 559,765 580,794 536,822 506,812 508,789 489,778 493,699" />
-                    <polygon id="Switzerland" class="fillMap" @click="getCountry"
-                        points="503,807 495,851 538,822 504,816" />
-                    <polygon id="Italy" class="fillMap" @click="getCountry" points="494,850 536,823 574,836 579,857 560,873 638,944 637,949 622,941 615,951 622,971 
-                        611,985 602,984 594,1007 562,986 580,980 601,984 519,874 490,880 494,848" />
-                    <polygon id="Poland" class="fillMap" @click="getCountry"
-                        points="592,681 652,670 690,682 699,674 710,686 710,690 709,733 686,783 596,743 590,682" />
-                    <polygon id="CzechRepublic" class="fillMap" @click="getCountry"
-                        points="595,745 655,770 620,794 582,792 555,760 595,746" />
-                    <polygon id="Austria" class="fillMap" @click="getCountry"
-                        points="539,824 580,795 621,794 625,808 613,827 575,834 538,823" />
-                    <polygon id="Slovenia" class="fillMap" @click="getCountry"
-                        points="573,838 614,827 619,834 587,862 578,856 575,838" />
-                    <polygon id="Croatia" class="fillMap" @click="getCountry"
-                        points="620,835 648,853 649,864 607,862 626,900 587,864 619,832" />
-                    <polygon id="Slovakia" class="fillMap" @click="getCountry"
-                        points="657,772 686,785 682,794 624,811 620,794 655,771" />
-                    <polygon id="Hungary" class="fillMap" @click="getCountry"
-                        points="625,810 683,793 700,807 671,842 648,851 612,827 625,808" />
-                    <polygon id="BosniaHerzegovina" class="fillMap" @click="getCountry"
-                        points="608,861 649,865 652,888 636,908 626,898 606,860" />
-                    <polygon id="Montenegro" class="fillMap" @click="getCountry"
-                        points="653,891 666,900 651,912 652,921 636,908 652,890" />
-                    <polygon id="Albania" class="fillMap" @click="getCountry"
-                        points="651,914 661,906 676,935 662,959 652,944 651,913" />
-                    <polygon id="Greece" class="fillMap" @click="getCountry"
-                        points="677,936 716,924 743,928 745,934 722,935 696,950 720,987 701,1017 662,960 678,933" />
-                    <polygon id="Serbia" class="fillMap" @click="getCountry"
-                        points="647,852 670,843 694,872 695,920 673,894 666,901 653,890 647,851" />
-                    <polygon id="Kosovo" class="fillMap" @click="getCountry"
-                        points="662,904 672,894 683,907 668,918 661,905" />
-                    <polygon id="NorthMacedonia" class="fillMap" @click="getCountry"
-                        points="669,918 684,907 701,928 676,934 669,916" />
-                    <polygon id="Estonia" class="fillMap" @click="getCountry"
-                        points="711,569 724,557 762,550 763,597 731,584 717,588 710,569" />
-                    <polygon id="Latvia" class="fillMap" @click="getCountry"
-                        points="682,599 691,596 709,618 721,594 718,588 734,583 764,596 767,633 751,643 679,633 681,597" />
-                    <polygon id="Lithuania" class="fillMap" @click="getCountry"
-                        points="678,634 751,641 710,685 676,655 678,634" />
-                    <polygon id="Belarus" class="fillMap" @click="getCountry"
-                        points="751,643 767,633 799,646 814,720 708,731 710,684 752,643" />
-                    <polygon id="Ukraine" class="fillMap" @click="getCountry" points="710,735 840,721 921,779 899,825 841,844 867,861 841,874 821,856 
-                        832,844 804,837 791,859 771,854 787,830 771,801 701,808 683,792 710,733" />
-                    <polygon id="Moldova" class="fillMap" @click="getCountry"
-                        points="749,804 770,801 788,830 772,856 750,803" />
-                    <polygon id="Bulgaria" class="fillMap" @click="getCountry"
-                        points="669,843 699,807 748,803 769,857 790,858 774,885 706,886 669,843" />
-                    <polygon id="Romania" class="fillMap" @click="getCountry"
-                        points="695,873 707,887 775,887 758,917 744,920 744,928 718,923 704,927 698,919 695,873" />
-                    <polygon id="Iceland" class="fillMap" @click="getCountry"
-                        points="201,364 229,418 170,443 138,440 102,396 118,391 86,384 109,357 133,386 201,365" />
-
-
-                    <text transform="matrix(1 0 0 1 501 512)" class="country">挪威</text>
-                    <text transform="matrix(1 0 0 1 595 440)" class="country">瑞典</text>
-                    <text transform="matrix(1 0 0 1 740 430)" class="country">芬蘭</text>
-                    <text transform="matrix(1 0 0 1 765 570)" class="country">愛沙尼亞</text>
-                    <text transform="matrix(1 0 0 1 765 615)" class="country">拉脫維亞</text>
-                    <text transform="matrix(1 0 0 1 630 660)" class="country">立陶宛</text>
-                    <text transform="matrix(1 0 0 1 735 691)" class="country">白俄羅斯</text>
-                    <text transform="matrix(1 0 0 1 640 722)" class="country">波蘭</text>
-                    <text transform="matrix(1 0 0 1 817 770)" class="country">烏克蘭</text>
-                    <text transform="matrix(1 0 0 1 684 844)" class="country">保加利亞</text>
-                    <text transform="matrix(1 0 0 1 702 906)" class="country">羅馬尼亞</text>
-                    <text transform="matrix(1 0 0 1 668 966)" class="country">希臘</text>
-                    <text transform="matrix(1 0 0 1 514 852)" class="country">義大利</text>
-                    <text transform="matrix(1 0 0 1 336 963)" class="country">西班牙</text>
-                    <text transform="matrix(1 0 0 1 260 964)" class="country">葡萄牙</text>
-                    <text transform="matrix(1 0 0 1 392 819)" class="country">法國</text>
-                    <text transform="matrix(1 0 0 1 520 743)" class="country">德國</text>
-                    <text transform="matrix(1 0 0 1 134 406)" class="country">冰島</text>
-                    <text transform="matrix(1 0 0 1 349 731)" class="country">英國</text>
-                    <text transform="matrix(1 0 0 1 271 696)" class="country">愛爾蘭</text>
-                    <text transform="matrix(1 0 0 1 420 730)" class="country">比利時</text>
-                    <text transform="matrix(1 0 0 1 450 700)" class="country">荷蘭</text>
-                    <text transform="matrix(1 0 0 1 470 633)" class="country">丹麥</text>
-                    <text transform="matrix(1 0 0 1 580 775)" class="country">捷克</text>
-                    <text transform="matrix(1 0 0 1 570 810)" class="country">奧地利</text>
-                    <text transform="matrix(1 0 0 1 640 815)" class="country">匈牙利</text>
-
-                </svg>
-            </div>
-        </div>
-    </div>
-    
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
-    <script src="https://unpkg.com/vue@next"></script>
-    <script src="main.js"></script>
-</body>
-
+        <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+        <script src="https://unpkg.com/vue@next"></script>
+        <script src="main.js"></script>
+    </body>
 </html>
